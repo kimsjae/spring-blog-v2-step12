@@ -8,8 +8,8 @@ on:
 # actions/setup-java@v2는 사용자 정의 배포를 지원하고 Zulu OpenJDK, Eclipse Temurin 및 Adopt OpenJDK를 기본적으로 지원합니다. v1은 Zulu OpenJDK만 지원합니다.
 jobs:
   build:
-    runs-on: ubuntu-latest
     steps:
+    runs-on: ubuntu-latest
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -24,3 +24,14 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew clean build
+
+      # CI 끝. CD 시작
+
+      - name: deploy packaging
+        run: |
+          mkdir deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cd deploy
+          zip -r deploy.zip .
