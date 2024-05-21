@@ -15,6 +15,7 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(Exception400.class)
     public ResponseEntity<?> ex400(Exception400 e){
+        log.warn(e.getMessage());
         ApiUtil<?> apiUtil = new ApiUtil<>(400, e.getMessage()); // http body -> 구성한 객체
         return new ResponseEntity<>(apiUtil, HttpStatus.BAD_REQUEST); // http body, http header
     }
@@ -39,14 +40,15 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(Exception500.class)
     public ResponseEntity<?> ex500(Exception500 e){
+        log.error(e.getMessage());
         ApiUtil<?> apiUtil = new ApiUtil<>(500, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> unknown(Exception e){
-        ApiUtil<?> apiUtil = new ApiUtil<>(500, "오류 : 관리자에게 문의하세요");
         log.error(e.getMessage());
+        ApiUtil<?> apiUtil = new ApiUtil<>(500, "오류 : 관리자에게 문의하세요");
         return new ResponseEntity<>(apiUtil, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
