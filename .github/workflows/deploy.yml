@@ -39,10 +39,10 @@ jobs:
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v22
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: blog
-          environment_name: blog-env
-          version_label: blog-${{steps.current-time.outputs.formattedTime}}
+          environment_name: Blog-env
+          version_label: ${{github.run_number}}
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
